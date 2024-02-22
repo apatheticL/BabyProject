@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "4588679119",
+    "project_id": "animationproject-aa3bc",
+    "storage_bucket": "animationproject-aa3bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4588679119:android:469bba887b5ce8e9e4ecba",
+        "android_client_info": {
+          "package_name": "com.animationproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD58tIcs02LfEpqLDlYs-pWxX2LztLaMu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
