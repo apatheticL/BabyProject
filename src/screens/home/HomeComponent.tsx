@@ -8,22 +8,33 @@ import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Health} from '../../core/model/health.model';
 import {Schedule} from '../../core/model/schedule.model';
+import {UserInfo} from '../../core/model/user-info.model';
 interface Props {
   health?: Health;
   reminder?: Schedule;
   onHealth?: (health?: Health) => void;
   onAddHealth?: () => void;
+  onHealthList?: () => void;
+  currentUser: UserInfo;
+  onAddSchedule?: () => void;
+  onScheduleList?: () => void;
+  onAddResult?: () => void;
+  onScheduleDetail?: (schedule?: Schedule) => void;
 }
 const HomeComponent = (props: Props) => {
   return (
     <View style={[defaultStyle.background, {flex: 1}]}>
-      <ChartComponent />
+      <ChartComponent currentUser={props.currentUser} />
       <ItemHealthComponent
         healthModel={props.health}
         onAddHealth={props.onAddHealth}
         onHealth={props.onHealth}
       />
-      <ItemReminderComponent reminder={props.reminder} />
+      <ItemReminderComponent
+        reminder={props.reminder}
+        onAddSchedule={props.onAddSchedule}
+        onPress={props.onScheduleDetail}
+      />
       <ActionButton buttonColor="rgba(231,76,60,1)" spacing={16}>
         <ActionButton.Item
           buttonColor="#9b59b6"
@@ -36,13 +47,17 @@ const HomeComponent = (props: Props) => {
         <ActionButton.Item
           buttonColor="#f9b5c6"
           title="New Reminder"
-          onPress={() => {}}>
+          onPress={() => {
+            props.onAddSchedule?.();
+          }}>
           <Icon name="table-large-plus" style={styles.actionButtonIcon} />
         </ActionButton.Item>
         <ActionButton.Item
           buttonColor="#3498db"
           title="New Result"
-          onPress={() => {}}>
+          onPress={() => {
+            props.onAddResult?.();
+          }}>
           <Icon
             name="checkbox-marked-circle-plus-outline"
             style={styles.actionButtonIcon}
@@ -51,13 +66,17 @@ const HomeComponent = (props: Props) => {
         <ActionButton.Item
           buttonColor="#e7f08e"
           title="All health"
-          onPress={() => {}}>
+          onPress={() => {
+            props.onHealthList?.();
+          }}>
           <Icon name="format-list-checks" style={styles.actionButtonIcon} />
         </ActionButton.Item>
         <ActionButton.Item
           buttonColor="#1abc9c"
           title="All Reminder"
-          onPress={() => {}}>
+          onPress={() => {
+            props.onScheduleList?.();
+          }}>
           <Icon name="format-list-text" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>

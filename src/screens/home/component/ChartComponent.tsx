@@ -1,16 +1,34 @@
-import React from 'react';
+import React, {useMemo, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {PieChart} from 'react-native-gifted-charts';
+import {UserInfo} from '../../../core/model/user-info.model';
+import {getPercentageGestational} from '../../../core/utils/utils';
+interface Props {
+  currentUser: UserInfo;
+}
+export const ChartComponent = (props: Props) => {
+  const [currentDay, setCurrentDay] = useState(0);
+  const [totalDays, setTotalDay] = useState(0);
+  const piaData = useMemo(() => {
+    const weeks = props.currentUser.GestationalAge.weeks;
+    const days = props.currentUser.GestationalAge.days;
 
-export const ChartComponent = () => {
-  const pieData = [
-    {
-      value: 45.54,
-      color: '#4caf50',
-      gradientCenterColor: '#009FFF',
-    },
-    {value: 54.46, color: '#f6ed99', gradientCenterColor: '#FFA5BA'},
-  ];
+    const value = getPercentageGestational(weeks, days);
+    setCurrentDay(value.currentDay);
+    setTotalDay(value.totalDay);
+    return [
+      {
+        value: value.currentPercentage,
+        color: '#4caf50',
+        gradientCenterColor: '#009FFF',
+      },
+      {
+        value: value.totalPercentage,
+        color: '#f6ed99',
+        gradientCenterColor: '#FFA5BA',
+      },
+    ];
+  }, [props.currentUser]);
 
   const renderDot = (color: string) => {
     return <View style={[styles.dot, {backgroundColor: color}]} />;
@@ -20,70 +38,51 @@ export const ChartComponent = () => {
     return (
       <>
         <View style={styles.viewLegend}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: 120,
-              marginRight: 20,
-            }}>
+          <View style={styles.viewLegendItem}>
             {renderDot('#4caf50')}
-            <Text style={{color: 'white'}}>Fetus: 127 days</Text>
+            <Text style={styles.txtLegend}>{`Fetus: ${currentDay} days`}</Text>
           </View>
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', width: 120}}>
+          <View style={styles.viewRemaining}>
             {renderDot('#f8cd8c')}
-            <Text style={{color: 'white'}}>Remaining: 150 days</Text>
+            <Text
+              style={styles.txtLegend}>{`Remaining: ${totalDays} days`}</Text>
           </View>
         </View>
       </>
     );
   };
+  const renderCenter = () => {
+    return (
+      <View style={styles.viewContentDate}>
+        <Text style={styles.valueDate}>
+          {`${props.currentUser.GestationalAge.weeks} weeks`}
+        </Text>
+        {props.currentUser.GestationalAge.days > 0 && (
+          <Text style={styles.valueDate}>
+            {`${props.currentUser.GestationalAge.days} days`}
+          </Text>
+        )}
+      </View>
+    );
+  };
 
   return (
-    <View
-      style={{
-        paddingTop: 10,
-      }}>
-      <View
-        style={{
-          margin: 20,
-          padding: 16,
-          borderRadius: 20,
-          backgroundColor: '#232B5D',
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}>
+    <View style={styles.viewContainer}>
+      <View style={styles.viewContent}>
+        <View style={styles.viewHeader}>
           <Text style={styles.dueDateTitle}>Due Date: </Text>
-          <Text style={styles.dueDate}>21-07-2024</Text>
+          <Text style={styles.dueDate}>{props.currentUser.DueDate}</Text>
         </View>
-        <View style={{padding: 16, alignItems: 'center'}}>
+        <View style={styles.viewChart}>
           <PieChart
-            data={pieData}
+            data={piaData}
             donut
             showGradient
             sectionAutoFocus
             radius={90}
             innerRadius={60}
             innerCircleColor={'#232B5D'}
-            centerLabelComponent={() => {
-              return (
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                  <Text
-                    style={{fontSize: 22, color: 'white', fontWeight: '500'}}>
-                    18 weeks
-                  </Text>
-                  <Text
-                    style={{fontSize: 22, color: 'white', fontWeight: '500'}}>
-                    1 day
-                  </Text>
-                </View>
-              );
-            }}
+            centerLabelComponent={renderCenter}
           />
         </View>
         {renderLegendComponent()}
@@ -93,6 +92,39 @@ export const ChartComponent = () => {
 };
 
 const styles = StyleSheet.create({
+  viewChart: {padding: 16, alignItems: 'center'},
+  viewContentDate: {justifyContent: 'center', alignItems: 'center'},
+  valueDate: {fontSize: 22, color: 'white', fontWeight: '500'},
+  txtLegend: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '400',
+  },
+  viewHeader: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  viewContent: {
+    margin: 20,
+    padding: 16,
+    borderRadius: 20,
+    backgroundColor: '#232B5D',
+  },
+  viewContainer: {
+    paddingTop: 10,
+  },
+  viewRemaining: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 120,
+  },
+  viewLegendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 120,
+    marginRight: 20,
+  },
   dueDateTitle: {
     color: 'white',
     fontSize: 14,

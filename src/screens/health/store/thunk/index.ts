@@ -1,4 +1,9 @@
-import {Health, HealthRequest} from '../../../../core/model/health.model';
+import {
+  Health,
+  HealthRequest,
+  HealthStatus,
+  HealthStatusRequest,
+} from '../../../../core/model/health.model';
 import {HealthService} from '../../../../core/services/health.service';
 import {setCurrentHeath, setHealthList} from '../reducer/action';
 
@@ -52,9 +57,6 @@ export const onThunkHealthDetail =
         userId,
         healthId,
       );
-      console.log('====================================');
-      console.log(  healthId, result);
-      console.log('====================================');
       if (result.status) {
         onSuccess(result.data);
         dispatch(setCurrentHeath(result.data));
@@ -99,6 +101,55 @@ export const onThunkGetLastHeath =
       );
       if (result.status) {
         onSuccess(result.data);
+      } else {
+        onFail();
+      }
+    } catch (error) {
+      onFail();
+    }
+  };
+
+export const onThunkAddStatusHealth =
+  (
+    userId: string,
+    healthId: string,
+    healthStatus: HealthStatusRequest,
+    onSuccess: (healths: HealthStatus) => void,
+    onFail: () => void,
+  ): any =>
+  async (dispatch: any) => {
+    try {
+      const result = await HealthService.getInstance().addHealthStatus(
+        userId,
+        healthId,
+        healthStatus,
+      );
+      if (result.status) {
+        onSuccess(result.data);
+      } else {
+        onFail();
+      }
+    } catch (error) {
+      onFail();
+    }
+  };
+  export const onThunkRemoveStatusHealth =
+  (
+    userId: string,
+    healthId: string,
+    statusId: string,
+    onSuccess: () => void,
+    onFail: () => void,
+  ): any =>
+  async (dispatch: any) => {
+    try {
+      const result = await HealthService.getInstance().deleteHealthStatus(
+        userId,
+        healthId,
+        statusId,
+      );
+      if (result.status) {
+        onSuccess();
       } else {
         onFail();
       }

@@ -12,7 +12,7 @@ export class ScheduleService {
     return this.instance;
   }
   public addSchedule = async (health: ScheduleRequest) => {
-    const key = database().ref('/schedules').push().key;
+    const key = database().ref(`/schedules/${health.UserId}`).push().key;
     return new Promise<ApiResultModel>((resolve, reject) => {
       database()
         .ref(`/schedules/${health.UserId}/${key}`)
@@ -21,7 +21,8 @@ export class ScheduleService {
           Date: health.Date,
           GestationalWeek: health.GestationalWeek,
           UserId: health.UserId,
-          Type: health.Type,
+          Id: key,
+          Note: health.Note,
           timestamp: firebase.database.ServerValue.TIMESTAMP,
         })
         .then(() => {
@@ -87,6 +88,23 @@ export class ScheduleService {
         .remove()
         .then(() => {
           resolve({status: true, data: true, message: 'Success'});
+        })
+        .catch(error => {
+          reject({status: false, error: error, message: 'Error'});
+        });
+    });
+  };
+
+  public getNewScheduleByUserId = async (userId: string) => {
+    return new Promise<ApiResultModel>((resolve, reject) => {
+      database()
+        .ref(`/schedules/${userId}`)
+        .orderByKey()
+        .limitToLast(1)
+        .once('value')
+        .then(snapshot => {
+          const schedule = Object.values(snapshot.val())[0];
+          resolve({status: true, data: schedule, message: 'Success'});
         })
         .catch(error => {
           reject({status: false, error: error, message: 'Error'});

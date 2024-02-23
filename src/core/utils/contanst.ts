@@ -1,4 +1,4 @@
 export enum ReminderType {
-  Important,
-  Normal,
+  Important = 1,
+  Normal = 0,
 }

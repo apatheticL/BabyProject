@@ -25,11 +25,21 @@ export class HealthRequest {
     this.UserId = '';
   }
 }
-export class HealthStatus {
-  Key: number;
+export class HealthStatusRequest {
+  Key: string;
   Value: string;
   constructor() {
-    this.Key = 0;
+    this.Key = '';
     this.Value = '';
+  }
+}
+export class HealthStatus {
+  Key: string;
+  Value: string;
+  Id: string;
+  constructor() {
+    this.Key = '';
+    this.Value = '';
+    this.Id = '';
   }
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import {Health} from '../../../core/model/health.model';
 import {Color} from '../../../styles/color';
 import {IconHealthComponent} from '../../health/component/icon-health.component';
+import {AddNoDataComponent} from './add-no-data.component';
 interface ItemHealthComponentProps {
   healthModel?: Health;
   onAddHealth?: () => void;
@@ -32,52 +33,19 @@ export const ItemHealthComponent = (props: ItemHealthComponentProps) => {
           </View>
         </TouchableOpacity>
       ) : (
-        <View style={styles.viewNoData}>
-          <Text style={styles.txtNodata}>No health information</Text>
-          <Text style={styles.txtSubtitleNoData}>
-            Please add your health information
-          </Text>
-          <TouchableOpacity
-            style={styles.btnAddhealth}
-            activeOpacity={0.7}
-            onPress={props.onAddHealth}>
-            <Text style={styles.txtAddHealth}>Add health</Text>
-          </TouchableOpacity>
-        </View>
+        <AddNoDataComponent
+          label="No health information"
+          title="Please add your health information"
+          labelButton="Add health"
+          onPress={props.onAddHealth}
+        />
       )}
     </View>
   );
 };
 const styles = StyleSheet.create({
   viewContent: {flex: 1, justifyContent: 'center', marginLeft: 8},
-  viewNoData: {justifyContent: 'center', alignItems: 'center'},
-  txtNodata: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: 'black',
-    textAlign: 'center',
-  },
-  txtSubtitleNoData: {
-    fontSize: 14,
-    fontWeight: '400',
-    color: 'black',
-    textAlign: 'center',
-    marginTop: 8,
-  },
-  btnAddhealth: {
-    backgroundColor: '#98dcfa',
-    borderRadius: 32,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginVertical: 8,
-    width: 140,
-  },
-  txtAddHealth: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: 'white',
-    textAlign: 'center',
-  },
+
   viewHeader: {
     flexDirection: 'row',
     justifyContent: 'flex-start',

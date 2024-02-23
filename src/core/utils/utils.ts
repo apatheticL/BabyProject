@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {Health} from '../model/health.model';
 const getCurrentGestationalOld = (
   tuan1: number,
   ngay1: number,
@@ -50,4 +51,26 @@ export const validateEmail = (email: string) => {
 export const validatePhone = (phone: string) => {
   let reg = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
   return reg.test(phone) === true;
+};
+
+export const groupHealthList = (healthList: Health[]) => {
+  const groupedByDate = Object.entries(
+    healthList.reduce((acc: any, obj) => {
+      const date = obj.Date;
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(obj);
+      return acc;
+    }, {}),
+  ).map(([key, value]) => ({key, value}));
+  return groupedByDate;
+};
+
+export const getPercentageGestational = (weeks: number, days: number) => {
+  const currentDay = weeks * 7 + days;
+  const totalDay = 280 - currentDay;
+  const currentPercentage = (currentDay / 280) * 100;
+  const totalPercentage = 100 - currentPercentage;
+  return {currentPercentage, totalPercentage, totalDay, currentDay};
 };

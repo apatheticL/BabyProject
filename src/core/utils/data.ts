@@ -1,3 +1,4 @@
+import {GestationalWeek} from '../model/gestational-week.model';
 import {IconModel} from '../model/icon.model';
 
 export const listIcon: IconModel[] = [
@@ -57,3 +58,19 @@ export const listIcon: IconModel[] = [
     path: require('../../assets/icon/source/weight.png'),
   },
 ];
+
+export const listGestationalWeek = (): GestationalWeek[] => {
+  const gestationalWeeks = [];
+  const importantWeeks = [4, 12, 16, 22, 26, 30, 34, 36, 38, 39, 40];
+  for (let week = 1; week <= 40; week++) {
+    // Create a gestational week object
+    const gestationalWeek = {
+      type: importantWeeks.includes(week) ? 1 : 0,
+      week: week,
+    };
+
+    // Push the gestational week object into the array
+    gestationalWeeks.push(gestationalWeek);
+  }
+  return gestationalWeeks;
+};

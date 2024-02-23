@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {defaultStyle} from '../styles';
 import {BoxComponent} from './box.component';
 import {LabelComponent} from './label.component';
@@ -7,17 +7,39 @@ import {ContentTextComponent} from './content.text.component';
 interface LabelViewProps {
   label: string;
   value?: string | null;
+  customStyle?: StyleProp<ViewStyle>;
+  type?: 'Horizontal' | 'Vertical';
 }
 export const LabelContentTextComponent = (props: LabelViewProps) => {
+  const style =
+    props.type === 'Horizontal' ? styles.horizontal : styles.vertical;
+  const viewBox = props.type === 'Horizontal' ? styles.view : {};
+  __DEV__ && console.log('props.value', props.value);
   return (
     <>
       {props.value ? (
-        <View style={defaultStyle.marginLabel}>
+        <View
+          style={[
+            defaultStyle.marginLabel,
+            props.customStyle ? props.customStyle : {},
+            style,
+          ]}>
           <LabelComponent label={props.label} />
-          <BoxComponent />
+          <BoxComponent style={viewBox} />
           <ContentTextComponent value={props.value} />
         </View>
       ) : null}
     </>
   );
 };
+const styles = StyleSheet.create({
+  horizontal: {
+    flexDirection: 'row',
+  },
+  vertical: {
+    flexDirection: 'column',
+  },
+  view: {
+    width: 16,
+  },
+});

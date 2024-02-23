@@ -133,3 +133,27 @@ export const LeftIcon = (style: StyleProp<ImageStyle>): IconElement => {
 
   return Icon(source, style);
 };
+
+export const RemoveIcon = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./source/remove.png'),
+  };
+
+  return Icon(source, style);
+};
+
+export const NoDataIcon = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./source/no-data.png'),
+  };
+
+  return Icon(source, style);
+};
+
+export const ChangeTimeIcon = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./source/change-time.png'),
+  };
+
+  return Icon(source, style);
+};

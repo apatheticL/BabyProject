@@ -10,19 +10,22 @@ import {
 import {ReminderType} from '../../../core/utils/contanst';
 import {Color} from '../../../styles/color';
 import {Schedule} from '../../../core/model/schedule.model';
+import {AddNoDataComponent} from './add-no-data.component';
 interface ItemReminderComponentProps {
   reminder?: Schedule;
+  onAddSchedule?: () => void;
+  onPress?: (reminder?: Schedule) => void;
 }
 export const ItemReminderComponent = (props: ItemReminderComponentProps) => {
   const renderIcon = (style: any) => {
-    if (props.reminder?.Type === ReminderType.Important) {
+    if (props.reminder?.GestationalWeek.type === ReminderType.Important) {
       return ImportantIcon(style);
     } else {
       return ScheduleIcon(style);
     }
   };
   const renderBackground = () => {
-    if (props.reminder?.Type === ReminderType.Important) {
+    if (props.reminder?.GestationalWeek.type === ReminderType.Important) {
       return {
         backgroundColor: '#EBF1F6',
       };
@@ -56,62 +59,39 @@ export const ItemReminderComponent = (props: ItemReminderComponentProps) => {
       <Text style={styles.name}>Reminder</Text>
 
       {props.reminder ? (
-        <View style={[styles.viewContainer, renderBackground()]}>
+        <TouchableOpacity
+          onPress={() => props.onPress?.(props.reminder)}
+          style={[styles.viewContainer, renderBackground()]}>
           <View style={styles.viewRow}>
             <View style={styles.viewContent}>
-              {renderItem('Milestone:', '22 weeks', MilestoneIcon, true)}
-              {renderItem('Date:', '12/12/2021', CalendarIcon)}
               {renderItem(
-                'Address:',
-                'BV đa khoa quốc tế Vinmec',
-                LocationPinIcon,
+                'Milestone:',
+                `${props.reminder?.GestationalWeek.week} weeks`,
+                MilestoneIcon,
+                props.reminder.GestationalWeek.type === 1,
               )}
+              {renderItem('Date:', `${props.reminder?.Date}`, CalendarIcon)}
+              {renderItem('Address:', props.reminder?.Address, LocationPinIcon)}
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       ) : (
-        <View style={styles.viewNoData}>
-          <Text style={styles.txtNodata}>No Reminder information</Text>
-          <Text style={styles.txtSubtitleNoData}>
-            Please add your Reminder information
-          </Text>
-          <TouchableOpacity style={styles.btnAdd} activeOpacity={0.7}>
-            <Text style={styles.txtAddReminder}>Add Reminder</Text>
-          </TouchableOpacity>
-        </View>
+        <AddNoDataComponent
+          label="No Reminder information"
+          title="Please ddd your Reminder information"
+          labelButton="Add Reminder"
+          styleButton={styles.btnAdd}
+          onPress={props.onAddSchedule}
+        />
       )}
     </View>
   );
 };
 const styles = StyleSheet.create({
-  viewNoData: {justifyContent: 'center', alignItems: 'center'},
-  txtNodata: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: 'black',
-    textAlign: 'center',
-  },
-  txtSubtitleNoData: {
-    fontSize: 14,
-    fontWeight: '400',
-    color: 'black',
-    textAlign: 'center',
-    marginTop: 8,
-  },
   btnAdd: {
     backgroundColor: '#f6c1ce',
-    borderRadius: 32,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginVertical: 8,
-    width: 140,
   },
-  txtAddReminder: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: 'white',
-    textAlign: 'center',
-  },
+
   viewContent: {
     flex: 1,
     marginLeft: 8,

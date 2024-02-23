@@ -1,10 +1,18 @@
-import {Image, ImageStyle, StyleProp, StyleSheet, View} from 'react-native';
+import {
+  Image,
+  ImageStyle,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {listIcon} from '../../../core/utils/data';
 import {IconModel} from '../../../core/model/icon.model';
 import React from 'react';
 interface IconHealthProps {
   iconId: number;
   style?: StyleProp<ImageStyle>;
+  styleContainer?: StyleProp<ViewStyle>;
 }
 export const IconHealthComponent = (props: IconHealthProps) => {
   const getIcon = (): IconModel => {
@@ -22,7 +30,12 @@ export const IconHealthComponent = (props: IconHealthProps) => {
   };
 
   return (
-    <View style={[styles.viewIcon, {backgroundColor: getIcon().color}]}>
+    <View
+      style={[
+        styles.viewIcon,
+        {backgroundColor: getIcon().color},
+        props.styleContainer ? props.styleContainer : {},
+      ]}>
       <Image
         style={[styles.icon, props.style ? props.style : {}]}
         source={getIcon().path}

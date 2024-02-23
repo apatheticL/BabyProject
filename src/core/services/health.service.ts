@@ -1,5 +1,9 @@
 import {firebase} from '@react-native-firebase/auth';
-import {Health, HealthRequest} from '../model/health.model';
+import {
+  Health,
+  HealthRequest,
+  HealthStatusRequest,
+} from '../model/health.model';
 import database from '@react-native-firebase/database';
 import {ApiResultModel} from '../model/api-result.model';
 export class HealthService {
@@ -102,6 +106,59 @@ export class HealthService {
     return new Promise<ApiResultModel>((resolve, reject) => {
       database()
         .ref(`/health/${userId}/${healthId}`)
+        .remove()
+        .then(() => {
+          resolve({status: true, data: true, message: 'Success'});
+        })
+        .catch(error => {
+          reject({status: false, error: error, message: 'Error'});
+        });
+    });
+  };
+
+  public addHealthStatus = async (
+    userId: string,
+    healthId: string,
+    healthStatus: HealthStatusRequest,
+  ) => {
+    const key = database()
+      .ref(`/health/${userId}/${healthId}/additionalInfo/`)
+      .push().key;
+
+    return new Promise<ApiResultModel>((resolve, reject) => {
+      database()
+        .ref(`/health/${userId}/${healthId}/additionalInfo/${key}`)
+        .set({
+          Key: healthStatus.Key,
+          Value: healthStatus.Value,
+          Id: key,
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
+        })
+        .then(_snapshot => {
+          resolve({
+            status: true,
+            data: {
+              Key: healthStatus.Key,
+              Value: healthStatus.Value,
+              Id: key,
+              timestamp: firebase.database.ServerValue.TIMESTAMP,
+            },
+            message: 'Success',
+          });
+        })
+        .catch(error => {
+          reject({status: false, error: error, message: 'Error'});
+        });
+    });
+  };
+  public deleteHealthStatus = async (
+    userId: string,
+    healthId: string,
+    healthStatusId: string,
+  ) => {
+    return new Promise<ApiResultModel>((resolve, reject) => {
+      database()
+        .ref(`/health/${userId}/${healthId}/additionalInfo/${healthStatusId}`)
         .remove()
         .then(() => {
           resolve({status: true, data: true, message: 'Success'});

@@ -23,4 +23,16 @@ export const defaultStyle = StyleSheet.create({
   },
   marginLabel: {marginBottom: 8, marginTop: 16},
   flex1: {flex: 1},
+  row: {flexDirection: 'row'},
+  textLabelModal: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#1A1F52',
+    textAlign: 'center',
+  },
+  borderColorDefault: {
+    borderColor: '#CCCEDF',
+    borderWidth: 0.6,
+  },
+  viewContent: {backgroundColor: 'white', marginTop: 16, flex: 1, padding: 16},
 });
