@@ -51,5 +51,15 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- start request permission camera -->
+	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
+
+    <key>NSCameraUsageDescription</key>
+	<!-- End request  -->
+
+	<!-- Start request permission photo library -->
+    <string>$(PRODUCT_NAME) would like to use your camera</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+	<!-- end request -->
 </dict>
 </plist>

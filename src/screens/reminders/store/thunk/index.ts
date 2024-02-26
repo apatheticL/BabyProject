@@ -1,5 +1,9 @@
+import {ExaminationResultRequest} from '../../../../core/model/examination-result.model';
 import {Schedule, ScheduleRequest} from '../../../../core/model/schedule.model';
+import {ResultScheduleService} from '../../../../core/services/result-schedule.service';
 import {ScheduleService} from '../../../../core/services/schedule.service';
+import {uploadListImage} from '../../../../core/services/upload-image.service';
+import {StatusSchedule} from '../../../../core/utils/contanst';
 import {setCurrentSchedule, setScheduleList} from '../reducer/action';
 
 export const onThunkAddSchedule =
@@ -96,6 +100,31 @@ export const onThunkGetLastSchedule =
       );
       if (result.status) {
         onSuccess(result.data);
+      } else {
+        onFail();
+      }
+    } catch (error) {
+      onFail();
+    }
+  };
+
+export const onThunkAddResultSchedule =
+  (
+    result: ExaminationResultRequest,
+    onSuccess: () => void,
+    onFail: () => void,
+  ): any =>
+  async (dispatch: any) => {
+    try {
+      const response =
+        await ResultScheduleService.getInstance().addResultSchedule(result);
+      if (response.status) {
+        onSuccess();
+        await ScheduleService.getInstance().updateStatus(
+          result.UserId,
+          result.scheduleId,
+          StatusSchedule.Examined,
+        );
       } else {
         onFail();
       }

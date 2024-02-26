@@ -13,6 +13,9 @@ interface ButtonProps {
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
   styleIcon?: StyleProp<ImageStyle>;
+  disable?: boolean;
+  labelDelete?: string;
+  titleDelete?: string;
 }
 export const ButtonDeleteIcon = (props: ButtonProps) => {
   const [open, setOpen] = useState(false);
@@ -29,6 +32,7 @@ export const ButtonDeleteIcon = (props: ButtonProps) => {
   return (
     <>
       <TouchableOpacity
+        disabled={props.disable}
         style={[styles.buttonRemove, props.style ? props.style : {}]}
         onPress={onPress}>
         {RemoveIcon([styles.icon, props.styleIcon ? props.styleIcon : {}])}
@@ -37,6 +41,8 @@ export const ButtonDeleteIcon = (props: ButtonProps) => {
         visible={open}
         onDecline={onDecline}
         onAccept={onAccept}
+        label={props.labelDelete}
+        title={props.titleDelete}
       />
     </>
   );

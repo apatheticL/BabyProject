@@ -10,6 +10,7 @@ import {HealthDetailContainer} from '../screens/health/health-detail/HealthDetai
 import {HealthListContainer} from '../screens/health/list-health/HealthListContainer';
 import {AddReminderContainer} from '../screens/reminders/add-reminder/AddReminderContainer';
 import {ReminderDetailContainer} from '../screens/reminders/detail/ReminderDetailContainer';
+import { ListReminderContainer } from '../screens/reminders/list/ListReminderContainer';
 
 export type MainNavigationParam = {
   loading: undefined;
@@ -44,6 +45,7 @@ const MainNavigator = () => {
       <Main.Screen name="HealthList" component={HealthListContainer} />
       <Main.Screen name="AddSchedule" component={AddReminderContainer} />
       <Main.Screen name="ScheduleDetail" component={ReminderDetailContainer} />
+      <Main.Screen name="ScheduleList" component={ListReminderContainer} />
     </Main.Navigator>
   );
 };

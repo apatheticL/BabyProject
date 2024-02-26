@@ -2,16 +2,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Schedule} from '../../../core/model/schedule.model';
 import {ReminderDetailComponent} from './ReminderDetailComponent';
 import React, {useEffect} from 'react';
-import {onThunkScheduleDetail} from '../store/thunk';
+import {onThunkAddResultSchedule, onThunkScheduleDetail} from '../store/thunk';
 import {
   ExaminationResult,
   ExaminationResultRequest,
 } from '../../../core/model/examination-result.model';
 import {isEmpty} from '../../../core/utils/utils';
+import {Alert} from 'react-native';
 export const ReminderDetailContainer = props => {
   const scheduleId = props.route.params.scheduleId;
   const [schedule, setSchedule] = React.useState<Schedule | undefined>();
-  __DEV__ && console.log('dev ~ ReminderDetailContainer ~ schedule:', schedule);
   const dispatch = useDispatch();
   const user = useSelector(state => state?.profileReducer);
   useEffect(() => {
@@ -46,10 +46,26 @@ export const ReminderDetailContainer = props => {
     );
   };
   const onResultPress = (result: ExaminationResult) => {
-    props.navigation.navigate('ResultScreen', {resultId: scheduleId});
+    props.navigation.navigate('ResultScreen', {
+      scheduleId: scheduleId,
+      resultId: result.Id,
+    });
   };
 
-  const onSubmitResult = (request: ExaminationResultRequest) => {};
+  const onSubmitResult = (request: ExaminationResultRequest) => {
+    dispatch(
+      onThunkAddResultSchedule(
+        request,
+        () => {
+          __DEV__ && console.log('add done');
+          onGetScheduleDetail();
+        },
+        () => {
+          Alert.alert('Add result failed');
+        },
+      ),
+    );
+  };
   const onBack = () => {
     props.navigation.goBack();
   };
@@ -59,6 +75,7 @@ export const ReminderDetailContainer = props => {
       onBack={onBack}
       onResultPress={onResultPress}
       onSubmitResult={onSubmitResult}
+      currentUser={user.currentUser}
     />
   );
 };

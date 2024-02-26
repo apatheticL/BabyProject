@@ -14,7 +14,6 @@ export const LabelContentTextComponent = (props: LabelViewProps) => {
   const style =
     props.type === 'Horizontal' ? styles.horizontal : styles.vertical;
   const viewBox = props.type === 'Horizontal' ? styles.view : {};
-  __DEV__ && console.log('props.value', props.value);
   return (
     <>
       {props.value ? (

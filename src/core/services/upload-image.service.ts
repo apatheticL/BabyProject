@@ -21,3 +21,14 @@ export const getImageDownloadUrl = async (imageUri: string) => {
   const url = await storage.ref(imageUri).getDownloadURL();
   return url;
 };
+
+export const uploadListImage = async (
+  imageUri: string[],
+  basePathUri: string,
+) => {
+  return Promise.all(
+    imageUri.map((image, index) =>
+      uploadImage(image, basePathUri + index.toString()),
+    ),
+  );
+};

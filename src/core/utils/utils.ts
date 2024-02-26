@@ -1,5 +1,9 @@
 import moment from 'moment';
 import {Health} from '../model/health.model';
+import {Dimensions} from 'react-native';
+
+export const deviceHeight = Dimensions.get('window').height;
+export const deviceWidth = Dimensions.get('window').width;
 const getCurrentGestationalOld = (
   tuan1: number,
   ngay1: number,
@@ -73,4 +77,14 @@ export const getPercentageGestational = (weeks: number, days: number) => {
   const currentPercentage = (currentDay / 280) * 100;
   const totalPercentage = 100 - currentPercentage;
   return {currentPercentage, totalPercentage, totalDay, currentDay};
+};
+export const checkOverdueSchedule = (date: string) => {
+  try {
+    const _newDate = new Date(date);
+    const currentDate = new Date();
+    return _newDate < currentDate;
+  } catch (error) {
+    __DEV__ && console.log('dev ~ checkOverdueSchedule ~ error:', error);
+    return false;
+  }
 };

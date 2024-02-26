@@ -43,6 +43,7 @@ export const AddReminderComponent = (props: Props) => {
         GestationalWeek: gestationalWeek,
         Note: note,
         UserId: props?.currentUser?.UserId ?? 'unknown',
+        Status: 1,
       });
     }
   };

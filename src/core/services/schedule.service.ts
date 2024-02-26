@@ -23,6 +23,7 @@ export class ScheduleService {
           UserId: health.UserId,
           Id: key,
           Note: health.Note,
+          Status: health.Status,
           timestamp: firebase.database.ServerValue.TIMESTAMP,
         })
         .then(() => {
@@ -40,7 +41,20 @@ export class ScheduleService {
         .once('value')
         .then(snapshot => {
           const schedule = snapshot.val();
-          resolve({status: true, data: schedule, message: 'Success'});
+          database()
+            .ref(`/ExaminationResults/${userId}/${scheduleId}`)
+            .once('value')
+            .then(_snapshot => {
+              if (_snapshot.exists()) {
+                schedule.Results = Object.values(_snapshot.val())[0];
+                resolve({status: true, data: schedule, message: 'Success'});
+              } else {
+                resolve({status: true, data: schedule, message: 'Success'});
+              }
+            })
+            .catch(error => {
+              resolve({status: true, data: schedule, message: 'Success'});
+            });
         })
         .catch(error => {
           reject({status: false, error: error, message: 'Error'});
@@ -53,7 +67,7 @@ export class ScheduleService {
         .ref(`/schedules/${userId}`)
         .once('value')
         .then(snapshot => {
-          const schedule = snapshot.val();
+          const schedule = Object.values(snapshot.val());
           resolve({status: true, data: schedule, message: 'Success'});
         })
         .catch(error => {
@@ -105,6 +119,25 @@ export class ScheduleService {
         .then(snapshot => {
           const schedule = Object.values(snapshot.val())[0];
           resolve({status: true, data: schedule, message: 'Success'});
+        })
+        .catch(error => {
+          reject({status: false, error: error, message: 'Error'});
+        });
+    });
+  };
+  public updateStatus = async (
+    userId: string,
+    scheduleId: string,
+    status: number,
+  ) => {
+    return new Promise<ApiResultModel>((resolve, reject) => {
+      database()
+        .ref(`/schedules/${userId}/${scheduleId}`)
+        .update({
+          Status: status,
+        })
+        .then(_snapshot => {
+          resolve({status: true, data: scheduleId, message: 'Success'});
         })
         .catch(error => {
           reject({status: false, error: error, message: 'Error'});
