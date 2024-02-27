@@ -1,18 +1,18 @@
 import {Alert, StyleSheet, View} from 'react-native';
-import {UserInfo} from '../../core/model/user-info.model';
-import {TopNavigationBar} from '../../components/header-tab';
-import {defaultStyle} from '../../styles';
+import {UserInfo} from '../../../core/model/user-info.model';
+import {TopNavigationBar} from '../../../components/header-tab';
+import {defaultStyle} from '../../../styles';
 import React from 'react';
-import {ButtonComponent} from '../../components/button.component';
-import {formatDateToString} from '../../core/utils/formater';
+import {ButtonComponent} from '../../../components/button.component';
+import {formatDateToString} from '../../../core/utils/formater';
 import {
   getGestationalOld,
   validateEmail,
   validatePhone,
-} from '../../core/utils/utils';
-import {User} from '../../core/model/user';
-import {LabelInputTextComponent} from '../../components/label-input-text.component';
-import {LabelDatePickerComponent} from '../../components/label-date.component';
+} from '../../../core/utils/utils';
+import {User} from '../../../core/model/user';
+import {LabelInputTextComponent} from '../../../components/label-input-text.component';
+import {LabelDatePickerComponent} from '../../../components/label-date.component';
 interface AddUserInfoComponentProps {
   onSaveUserInfo?: (userInfo: UserInfo) => void;
   onBack?: () => void;

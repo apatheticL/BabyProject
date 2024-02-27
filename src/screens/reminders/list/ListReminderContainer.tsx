@@ -27,11 +27,18 @@ export const ListReminderContainer = props => {
       ),
     );
   };
-  const onSchedulePress = (schedule: Schedule) => {};
+  const onSchedulePress = (schedule: Schedule) => {
+    props.navigation.navigate('ScheduleDetail', {
+      scheduleId: schedule.Id,
+    });
+  };
   return (
     <ListReminderComponent
       schedules={schedules}
       onSchedulePress={onSchedulePress}
+      onAddSchedule={() => {
+        props.navigation.navigate('AddSchedule');
+      }}
     />
   );
 };

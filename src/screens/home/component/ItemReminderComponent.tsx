@@ -27,7 +27,7 @@ export const ItemReminderComponent = (props: ItemReminderComponentProps) => {
           labelButton="Add Reminder"
           styleButton={styles.btnAdd}
           onPress={props.onAddSchedule}
-        />
+        /> 
       )}
     </View>
   );

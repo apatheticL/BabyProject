@@ -1,6 +1,13 @@
 import Modal from 'react-native-modal';
 import {GestationalWeek} from '../../../core/model/gestational-week.model';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {useState} from 'react';
 import {listGestationalWeek} from '../../../core/utils/data';
 import React from 'react';
@@ -25,15 +32,22 @@ export const GestationalWeekModal = (props: Props) => {
     setSelected(value);
   };
 
-  const renderBackground = (item: GestationalWeek) => {
+  /**
+   * Determines the background color style to use based on the given GestationalWeek item.
+   *
+   * @param {GestationalWeek} item - the GestationalWeek item to determine the background color style for
+   * @return {object | ViewStyle} the background color style based on the given GestationalWeek item
+   */
+  const renderBackground = (item: GestationalWeek): ViewStyle => {
     if (props.currentWeeks && item.week === props.currentWeeks.week) {
       return {backgroundColor: 'red'};
-    } else if (item.type === 1) {
-      return styles.backgroundImportant;
-    } else {
-      return styles.backgroundDefault;
     }
+
+    return item.type === 1
+      ? styles.backgroundImportant
+      : styles.backgroundDefault;
   };
+
   return (
     <>
       <TouchableOpacity

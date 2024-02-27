@@ -1,4 +1,4 @@
-import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {TopNavigationBar} from '../../../components/header-tab';
 import {
   ExaminationResult,
@@ -13,9 +13,10 @@ import {LabelHeaderComponent} from '../../signup/component/label.header.componet
 import {AddResultScheduleComponent} from './component/AddResultComponent';
 import {UserInfo} from '../../../core/model/user-info.model';
 import {ResultComponent} from './component/ResultComponent';
-import {checkOverdueSchedule} from '../../../core/utils/utils';
+import {checkOverdueSchedule, deviceHeight} from '../../../core/utils/utils';
 import {BoxComponent} from '../../../components/box.component';
 import {StatusSchedule} from '../../../core/utils/contanst';
+import {NoDataComponent} from '../../../components/no-data.component';
 interface ReminderProps {
   schedule?: Schedule;
   onResultPress?: (result: ExaminationResult) => void;
@@ -26,6 +27,9 @@ interface ReminderProps {
 
 export const ReminderDetailComponent = (props: ReminderProps) => {
   const renderStatus = useMemo(() => {
+    if (!props?.schedule) {
+      return undefined;
+    }
     if (props?.schedule?.Status === 2) {
       return 'Examined';
     }
@@ -49,29 +53,39 @@ export const ReminderDetailComponent = (props: ReminderProps) => {
     <View style={[defaultStyle.flex1, defaultStyle.background]}>
       <TopNavigationBar title="Reminder Detail" onBack={props.onBack} />
       <ScrollView>
-        <CardComponent
-          customStyle={{
-            marginHorizontal: 16,
-            width: '90%',
-          }}>
-          <LabelContentTextComponent
-            label="Milestone"
-            value={props?.schedule?.GestationalWeek.week?.toString() + ' Weeks'}
-          />
-          <LabelContentTextComponent
-            label="Date"
-            value={props?.schedule?.Date}
-          />
-          <LabelContentTextComponent
-            label="Address"
-            value={props?.schedule?.Address}
-          />
-          <LabelContentTextComponent
-            label="Note"
-            value={props?.schedule?.Note}
-          />
-          <LabelContentTextComponent label="Status" value={renderStatus} />
-        </CardComponent>
+        {props.schedule ? (
+          <CardComponent
+            customStyle={{
+              marginHorizontal: 16,
+              width: '90%',
+            }}>
+            <LabelContentTextComponent
+              label="Milestone"
+              value={
+                props?.schedule?.GestationalWeek.week
+                  ? `${props?.schedule?.GestationalWeek.week} Weeks`
+                  : null
+              }
+            />
+            <LabelContentTextComponent
+              label="Date"
+              value={props?.schedule?.Date}
+            />
+            <LabelContentTextComponent
+              label="Address"
+              value={props?.schedule?.Address}
+            />
+            <LabelContentTextComponent
+              label="Note"
+              value={props?.schedule?.Note}
+            />
+            <LabelContentTextComponent label="Status" value={renderStatus} />
+          </CardComponent>
+        ) : (
+          <View style={styles.viewNoData}>
+            <NoDataComponent />
+          </View>
+        )}
         {!props.schedule?.Results ? null : (
           <CardComponent customStyle={styles.card}>
             <LabelHeaderComponent label="Result Information" title={''} />
@@ -91,7 +105,7 @@ export const ReminderDetailComponent = (props: ReminderProps) => {
             />
           </CardComponent>
         ) : null}
-        <BoxComponent style={{height: 16}} />
+        <BoxComponent style={styles.box} />
       </ScrollView>
     </View>
   );
@@ -102,4 +116,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     width: '90%',
   },
+  box: {height: 16},
+  viewNoData: {height: deviceHeight - 66, marginTop: 16},
 });

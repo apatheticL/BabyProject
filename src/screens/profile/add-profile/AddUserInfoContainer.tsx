@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import {AddUserInfoComponent} from './AddUserInfoComponent';
 import {firebase} from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
-import {setUserProfile} from '../profile/store/reducer/action';
-import {User} from '../../core/model/user';
-import {UserInfo} from '../../core/model/user-info.model';
-import {onThunkLogout, onThunkUpdateUser} from '../profile/store/thunk';
+import {setUserProfile} from '../store/reducer/action';
+import {User} from '../../../core/model/user';
+import {UserInfo} from '../../../core/model/user-info.model';
+import {onThunkLogout, onThunkUpdateUser} from '../store/thunk';
 import {Alert} from 'react-native';
 export const AddUserInfoContainer = props => {
   const {currentUser} = firebase.auth();

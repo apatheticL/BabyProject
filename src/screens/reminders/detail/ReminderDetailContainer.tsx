@@ -23,14 +23,7 @@ export const ReminderDetailContainer = props => {
       onGetScheduleDetail();
     }
   }, [scheduleId, schedule, user.currentUser]);
-  __DEV__ &&
-    console.log(
-      '',
-      !isEmpty(user.currentUser.UserId),
-      scheduleId,
-      schedule === undefined,
-    );
-
+ 
   const onGetScheduleDetail = () => {
     dispatch(
       onThunkScheduleDetail(

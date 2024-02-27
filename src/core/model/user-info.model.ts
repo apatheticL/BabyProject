@@ -6,11 +6,13 @@ export class UserInfo {
   UserId: string;
   Avatar?: string;
   Email?: string;
+  Address?: string;
   constructor() {
     this.DueDate = '';
     this.GestationalAge = 0;
     this.Name = '';
     this.Phone = '';
     this.UserId = '';
+    this.Address = '';
   }
 }

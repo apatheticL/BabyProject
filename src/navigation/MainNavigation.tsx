@@ -5,12 +5,13 @@ import SignUpScreen from '../screens/signup/SignUpScreen';
 import {LoadingScreen} from '../screens/LoadingScreen';
 import TabNavigation from './TabNavigation';
 import {AddHealthContainer} from '../screens/health/add-health/AddHealthContainer';
-import {AddUserInfoContainer} from '../screens/use-profile/AddUserInfoContainer';
+import {AddUserInfoContainer} from '../screens/profile/add-profile/AddUserInfoContainer';
 import {HealthDetailContainer} from '../screens/health/health-detail/HealthDetailScreen';
 import {HealthListContainer} from '../screens/health/list-health/HealthListContainer';
 import {AddReminderContainer} from '../screens/reminders/add-reminder/AddReminderContainer';
 import {ReminderDetailContainer} from '../screens/reminders/detail/ReminderDetailContainer';
-import { ListReminderContainer } from '../screens/reminders/list/ListReminderContainer';
+import {ListReminderContainer} from '../screens/reminders/list/ListReminderContainer';
+import {UserProfileContainer} from '../screens/profile/user-profile/UserProfileContainer';
 
 export type MainNavigationParam = {
   loading: undefined;
@@ -24,6 +25,7 @@ export type MainNavigationParam = {
   AddSchedule: undefined;
   ScheduleList: undefined;
   ScheduleDetail: undefined;
+  UserProfile: undefined;
 };
 
 const Main = createNativeStackNavigator<MainNavigationParam>();
@@ -35,7 +37,6 @@ const MainNavigator = () => {
         headerShown: false,
       }}>
       <Main.Screen name="loading" component={LoadingScreen} />
-
       <Main.Screen name="login" component={LoginContainer} />
       <Main.Screen name="signUp" component={SignUpScreen} />
       <Main.Screen name="AddUserInfoScreen" component={AddUserInfoContainer} />
@@ -46,6 +47,7 @@ const MainNavigator = () => {
       <Main.Screen name="AddSchedule" component={AddReminderContainer} />
       <Main.Screen name="ScheduleDetail" component={ReminderDetailContainer} />
       <Main.Screen name="ScheduleList" component={ListReminderContainer} />
+      <Main.Screen name="UserProfile" component={UserProfileContainer} />
     </Main.Navigator>
   );
 };

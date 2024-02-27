@@ -30,26 +30,30 @@ export const ScheduleItemComponent = (props: Props) => {
     );
   };
 
+  /**
+   *
+   * @param style
+   * @returns
+   * render icon based on the schedule type
+   * if type is important then show icon important
+   * else show schedule icon
+   */
   const renderIcon = (style: any) => {
-    if (props.schedule?.GestationalWeek.type === ReminderType.Important) {
-      return ImportantIcon(style);
-    } else {
-      return ScheduleIcon(style);
-    }
+    return props.schedule?.GestationalWeek.type === ReminderType.Important
+      ? ImportantIcon(style)
+      : ScheduleIcon(style);
   };
   const renderBackground = () => {
-    if (props.schedule?.GestationalWeek.type === ReminderType.Important) {
-      return {
-        backgroundColor: '#e5b6b3',
-      };
-    } else {
-      return {
-        backgroundColor: 'white',
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#CCCEDF',
-      };
-    }
+    return props.schedule?.GestationalWeek.type === ReminderType.Important
+      ? {
+          backgroundColor: '#e5b6b3',
+        }
+      : {
+          backgroundColor: 'white',
+          borderRadius: 8,
+          borderWidth: 1,
+          borderColor: '#CCCEDF',
+        };
   };
 
   return (

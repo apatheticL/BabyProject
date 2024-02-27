@@ -1,20 +1,22 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useMemo} from 'react';
 import {ImageSource} from '../../../assets/images';
-import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {isEmpty} from '../../../core/utils/utils';
-
-export const UserInfoComponent = () => {
-  const profileReducer = useSelector(state => state?.profileReducer ?? {});
+import {UserInfo} from '../../../core/model/user-info.model';
+interface Props {
+  currentUser?: UserInfo;
+  onPress?: () => void;
+}
+export const UserInfoComponent = (props: Props) => {
   const getAvatar = useMemo(() => {
-    if (profileReducer.currentUser?.Avatar) {
-      return profileReducer.currentUser?.Avatar;
+    if (props.currentUser?.Avatar) {
+      return props.currentUser?.Avatar;
     }
     return '';
-  }, [profileReducer.currentUser]);
+  }, [props.currentUser]);
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={props.onPress}>
       <Image
         source={getAvatar !== '' ? {uri: getAvatar} : ImageSource.avatarDefault}
         style={styles.avatar}
@@ -22,17 +24,17 @@ export const UserInfoComponent = () => {
       <View style={{flex: 1}}>
         {/* Name */}
         <Text style={styles.name}>
-          {isEmpty(profileReducer.currentUser?.Name)
+          {isEmpty(props.currentUser?.Name)
             ? 'Unknow'
-            : profileReducer.currentUser?.Name}
+            : props.currentUser?.Name}
         </Text>
         {/* Email */}
         <Text style={styles.subItem}>
-          {profileReducer.currentUser?.Email ?? 'test@gmail.com'}
+          {props.currentUser?.Email ?? 'test@gmail.com'}
         </Text>
       </View>
       <Icon name="chevron-right" size={30} color="black" />
-    </View>
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({

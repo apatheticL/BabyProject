@@ -4,7 +4,7 @@ import HomeScreen from '../screens/home/HomeScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import React from 'react';
 import {MyTabBar} from './component/TabBar';
-import { ListReminderContainer } from '../screens/reminders/list/ListReminderContainer';
+import {ListReminderContainer} from '../screens/reminders/list/ListReminderContainer';
 export type TabNavigationParam = {
   HomeTab: undefined;
   History: undefined;
