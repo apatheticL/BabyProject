@@ -10,8 +10,8 @@ export const ChartComponent = (props: Props) => {
   const [currentDay, setCurrentDay] = useState(0);
   const [totalDays, setTotalDay] = useState(0);
   const piaData = useMemo(() => {
-    const weeks = props.currentUser.GestationalAge.weeks;
-    const days = props.currentUser.GestationalAge.days;
+    const weeks = props.currentUser.GestationalAge?.weeks ?? 0;
+    const days = props.currentUser.GestationalAge?.days ?? 0;
 
     const value = getPercentageGestational(weeks, days);
     setCurrentDay(value.currentDay);

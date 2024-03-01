@@ -157,3 +157,10 @@ export const ChangeTimeIcon = (style: StyleProp<ImageStyle>): IconElement => {
 
   return Icon(source, style);
 };
+export const NoteIcon = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./source/post-it.png'),
+  };
+
+  return Icon(source, style);
+};

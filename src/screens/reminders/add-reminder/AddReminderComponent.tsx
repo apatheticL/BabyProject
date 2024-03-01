@@ -13,7 +13,11 @@ import {TopNavigationBar} from '../../../components/header-tab';
 import {LabelInputTextComponent} from '../../../components/label-input-text.component';
 import React, {useState} from 'react';
 import {ButtonComponent} from '../../../components/button.component';
-import {isEmpty} from '../../../core/utils/utils';
+import {
+  getDateFromWeek,
+  getMaximumDateWeeks,
+  isEmpty,
+} from '../../../core/utils/utils';
 import {formatDateToString} from '../../../core/utils/formater';
 import {LabelDatePickerComponent} from '../../../components/label-date.component';
 import {LabelViewComponent} from '../../../components/label-view.component';
@@ -57,6 +61,11 @@ export const AddReminderComponent = (props: Props) => {
               <GestationalWeekModal
                 onPress={item => {
                   setGestationalWeek(item);
+                  const _date = getDateFromWeek(
+                    item.week,
+                    props.currentUser.DueDate,
+                  );
+                  setDate(_date);
                 }}
                 currentWeeks={gestationalWeek}
               />
@@ -65,6 +74,8 @@ export const AddReminderComponent = (props: Props) => {
               label="Date"
               value={date}
               onDateChange={setDate}
+              minDate={date}
+              maxDate={getMaximumDateWeeks(date)}
             />
             <LabelInputTextComponent
               label="Address"

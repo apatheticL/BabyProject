@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Schedule} from '../../../core/model/schedule.model';
 import {Color} from '../../../styles/color';
-import React = require('react');
+import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {defaultStyle} from '../../../styles';
 import {BoxComponent} from '../../../components/box.component';
@@ -38,10 +38,20 @@ export const ItemScheduleComponent = (props: Props) => {
           style={styles.icon}
         />
         <Text style={styles.valueItem}>{props.schedule.Address}</Text>
-        {props.schedule.Note && (
-          <Text style={styles.valueItem}>{props.schedule.Address}</Text>
-        )}
       </View>
+      {props.schedule.Note && (
+        <View style={styles.itemRow}>
+          <Icon
+            name="note-text-outline"
+            size={16}
+            color={Color.Red}
+            style={styles.icon}
+          />
+          <Text style={[styles.valueItem, {color: 'red'}]}>
+            {props.schedule.Note}
+          </Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };

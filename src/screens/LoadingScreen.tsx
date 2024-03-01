@@ -6,7 +6,7 @@ import React from 'react';
 export const LoadingScreen = props => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-      props.navigation.replace(user ? 'HomeScreen' : 'signUp');
+      props.navigation.replace(user ? 'HomeScreen' : 'login');
     });
   }, []);
   return (

@@ -4,10 +4,13 @@ import {Health} from '../../../core/model/health.model';
 import {Color} from '../../../styles/color';
 import {IconHealthComponent} from '../../health/component/icon-health.component';
 import {AddNoDataComponent} from './add-no-data.component';
+import {LoadingComponent} from '../../../components/loading.component';
+import {defaultStyle} from '../../../styles';
 interface ItemHealthComponentProps {
   healthModel?: Health;
   onAddHealth?: () => void;
   onHealth?: (healthModel?: Health) => void;
+  loading?: boolean;
 }
 export const ItemHealthComponent = (props: ItemHealthComponentProps) => {
   return (
@@ -32,6 +35,10 @@ export const ItemHealthComponent = (props: ItemHealthComponentProps) => {
             </Text>
           </View>
         </TouchableOpacity>
+      ) : props.loading ? (
+        <View style={defaultStyle.height50}>
+          <LoadingComponent />
+        </View>
       ) : (
         <AddNoDataComponent
           label="No health information"

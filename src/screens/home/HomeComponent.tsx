@@ -17,6 +17,8 @@ interface Props {
   onHealthList?: () => void;
   currentUser: UserInfo;
   onAddSchedule?: () => void;
+  loading?: boolean;
+  loadingHealth?: boolean;
   onScheduleList?: () => void;
   onAddResult?: () => void;
   onScheduleDetail?: (schedule?: Schedule) => void;
@@ -29,11 +31,13 @@ const HomeComponent = (props: Props) => {
         healthModel={props.health}
         onAddHealth={props.onAddHealth}
         onHealth={props.onHealth}
+        loading={props.loadingHealth}
       />
       <ItemReminderComponent
         reminder={props.reminder}
         onAddSchedule={props.onAddSchedule}
         onPress={props.onScheduleDetail}
+        loading={props.loading}
       />
       <ActionButton buttonColor="rgba(231,76,60,1)" spacing={16}>
         <ActionButton.Item

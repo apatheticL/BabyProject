@@ -4,10 +4,11 @@ import {
   ImportantIcon,
   LocationPinIcon,
   MilestoneIcon,
+  NoteIcon,
   ScheduleIcon,
 } from '../../../assets/icon';
 import {Schedule} from '../../../core/model/schedule.model';
-import React = require('react');
+import React from 'react';
 import {ReminderType} from '../../../core/utils/contanst';
 interface Props {
   schedule: Schedule;
@@ -46,7 +47,7 @@ export const ScheduleItemComponent = (props: Props) => {
   const renderBackground = () => {
     return props.schedule?.GestationalWeek.type === ReminderType.Important
       ? {
-          backgroundColor: '#e5b6b3',
+          backgroundColor: '#c4def6',
         }
       : {
           backgroundColor: 'white',
@@ -70,6 +71,7 @@ export const ScheduleItemComponent = (props: Props) => {
           )}
           {renderItem('Date:', `${props.schedule?.Date}`, CalendarIcon)}
           {renderItem('Address:', props.schedule?.Address, LocationPinIcon)}
+          {props.schedule?.Note && renderItem('Note:', props.schedule?.Note, NoteIcon)}
         </View>
       </View>
     </TouchableOpacity>

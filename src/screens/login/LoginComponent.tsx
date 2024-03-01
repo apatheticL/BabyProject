@@ -19,8 +19,8 @@ interface Props {
   message: string;
 }
 export const LoginComponent = (props: Props) => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('le20051998@gmail.com');
+  const [password, setPassword] = React.useState('123456');
   const [errorMessage, setErrorMessage] = React.useState('');
   const handleLogin = () => {
     props.onLogin(email, password);

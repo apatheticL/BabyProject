@@ -4,10 +4,13 @@ import {Color} from '../../../styles/color';
 import {Schedule} from '../../../core/model/schedule.model';
 import {AddNoDataComponent} from './add-no-data.component';
 import {ScheduleItemComponent} from '../../reminders/component/item.component';
+import {LoadingComponent} from '../../../components/loading.component';
+import { defaultStyle } from '../../../styles';
 interface ItemReminderComponentProps {
   reminder?: Schedule;
   onAddSchedule?: () => void;
   onPress?: (reminder?: Schedule) => void;
+  loading?: boolean;
 }
 export const ItemReminderComponent = (props: ItemReminderComponentProps) => {
   //checkup milestone
@@ -20,6 +23,10 @@ export const ItemReminderComponent = (props: ItemReminderComponentProps) => {
           schedule={props.reminder}
           onPress={props.onPress}
         />
+      ) : props.loading ? (
+        <View style={defaultStyle.height50}>
+          <LoadingComponent />
+        </View>
       ) : (
         <AddNoDataComponent
           label="No Reminder information"
@@ -27,7 +34,7 @@ export const ItemReminderComponent = (props: ItemReminderComponentProps) => {
           labelButton="Add Reminder"
           styleButton={styles.btnAdd}
           onPress={props.onAddSchedule}
-        /> 
+        />
       )}
     </View>
   );
@@ -42,6 +49,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 14,
+    justifyContent: 'center',
   },
   name: {
     color: Color.MainText,

@@ -5,9 +5,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ItemCardComponent} from './item-card.component';
 import {Color} from '../../../styles/color';
 import React from 'react';
+import {isEmpty} from '../../../core/utils/utils';
+import { User } from '../../../core/model/user';
 interface Props {
   currentUser?: UserInfo;
   onChange?: (user: UserInfo) => void;
+  userProfile?: User;
 }
 export const CardProfileInfo = (props: Props) => {
   return (
@@ -16,26 +19,52 @@ export const CardProfileInfo = (props: Props) => {
         icon={<Icon name="account-outline" size={24} color={Color.MainText} />}
         label="Name"
         value={props.currentUser?.Name}
-        onPress={() => {}}
+        onSave={value => {
+          if (!isEmpty(value)) {
+            props.onChange?.({
+              ...props.currentUser,
+              DueDate: props.currentUser?.DueDate,
+              Name: value ?? '',
+            });
+          }
+        }}
       />
       <ItemCardComponent
         icon={<Icon name="phone-outline" size={24} color={Color.MainText} />}
         label="Phone"
+        keyboardType="phone-pad"
         value={props.currentUser?.Phone}
-        onPress={() => {}}
+        onSave={value => {
+          if (!isEmpty(value)) {
+            props.onChange?.({
+              ...props.currentUser,
+              DueDate: props.currentUser?.DueDate,
+              Phone: value ?? '',
+            });
+          }
+        }}
       />
       <ItemCardComponent
         icon={<Icon name="email-outline" size={24} color={Color.MainText} />}
         label="Email"
-        value={props.currentUser?.Email}
+        value={props.currentUser?.Email ?? props.userProfile?.email}
         disable={true}
-        onPress={() => {}}
       />
       <ItemCardComponent
         icon={<Icon name="calendar-range" size={24} color={Color.MainText} />}
         label="Due Date"
+        isDate={true}
         value={props.currentUser?.DueDate}
-        onPress={() => {}}
+        onSave={data => {
+          if (!isEmpty(data)) {
+            props.onChange?.({
+              ...props.currentUser,
+              DueDate: data ?? '',
+              GestationalAge: props.currentUser?.GestationalAge,
+              Name: props.currentUser?.Name,
+            });
+          }
+        }}
       />
       <ItemCardComponent
         icon={
@@ -43,7 +72,15 @@ export const CardProfileInfo = (props: Props) => {
         }
         label="Address"
         value={props.currentUser?.Address}
-        onPress={() => {}}
+        onSave={value => {
+          if (!isEmpty(value)) {
+            props.onChange?.({
+              ...props.currentUser,
+              Address: value ?? '',
+              DueDate: props.currentUser?.DueDate,
+            });
+          }
+        }}
       />
     </CardComponent>
   );

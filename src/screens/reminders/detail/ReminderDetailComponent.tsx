@@ -54,11 +54,7 @@ export const ReminderDetailComponent = (props: ReminderProps) => {
       <TopNavigationBar title="Reminder Detail" onBack={props.onBack} />
       <ScrollView>
         {props.schedule ? (
-          <CardComponent
-            customStyle={{
-              marginHorizontal: 16,
-              width: '90%',
-            }}>
+          <CardComponent customStyle={styles.cardView}>
             <LabelContentTextComponent
               label="Milestone"
               value={
@@ -112,6 +108,10 @@ export const ReminderDetailComponent = (props: ReminderProps) => {
 };
 
 const styles = StyleSheet.create({
+  cardView: {
+    marginHorizontal: 16,
+    width: '90%',
+  },
   card: {
     marginHorizontal: 16,
     width: '90%',

@@ -35,4 +35,5 @@ export const defaultStyle = StyleSheet.create({
     borderWidth: 0.6,
   },
   viewContent: {backgroundColor: 'white', marginTop: 16, flex: 1, padding: 16},
+  height50: {height: 50},
 });

@@ -9,6 +9,7 @@ interface LabelDatePickerProps {
   value: Date;
   onDateChange: (text: Date) => void;
   minDate?: Date;
+  maxDate?: Date;
 }
 export const LabelDatePickerComponent = (props: LabelDatePickerProps) => {
   return (
@@ -19,6 +20,7 @@ export const LabelDatePickerComponent = (props: LabelDatePickerProps) => {
         date={props.value}
         onDateChange={props.onDateChange}
         minimumDate={props.minDate}
+        maximumDate={props.maxDate}
       />
     </View>
   );

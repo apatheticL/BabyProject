@@ -13,21 +13,22 @@ export class ScheduleService {
   }
   public addSchedule = async (health: ScheduleRequest) => {
     const key = database().ref(`/schedules/${health.UserId}`).push().key;
+    const data = {
+      Address: health.Address,
+      Date: health.Date,
+      GestationalWeek: health.GestationalWeek,
+      UserId: health.UserId,
+      Id: key,
+      Note: health.Note,
+      Status: health.Status,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+    };
     return new Promise<ApiResultModel>((resolve, reject) => {
       database()
         .ref(`/schedules/${health.UserId}/${key}`)
-        .set({
-          Address: health.Address,
-          Date: health.Date,
-          GestationalWeek: health.GestationalWeek,
-          UserId: health.UserId,
-          Id: key,
-          Note: health.Note,
-          Status: health.Status,
-          timestamp: firebase.database.ServerValue.TIMESTAMP,
-        })
+        .set(data)
         .then(() => {
-          resolve({status: true, data: key, message: 'Success'});
+          resolve({status: true, data: data, message: 'Success'});
         })
         .catch(error => {
           reject({status: false, error: error, message: 'Error'});

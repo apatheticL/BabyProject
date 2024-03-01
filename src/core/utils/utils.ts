@@ -16,7 +16,6 @@ const getCurrentGestationalOld = (
 
   // Tính hiệu
   let hieuTuan = tuanNgay1 - tuanNgay2;
-
   // Lấy phần nguyên và phần thập phân
   let nguyen = Math.floor(hieuTuan);
   let thapPhan = hieuTuan - nguyen;
@@ -30,20 +29,31 @@ const getCurrentGestationalOld = (
 // Sử dụng hàm
 
 export const getGestationalOld = (dueDate: string | Date) => {
-  let due = new Date(dueDate);
-  if (dueDate instanceof Date) {
-    due = dueDate;
-  }
+  let due =
+    typeof dueDate === 'string'
+      ? moment(dueDate, 'DD-MM-yyyy').toDate()
+      : dueDate;
   const today = moment();
   let currentTime = moment(due);
-
-  // Trừ đi 7 ngày
   const weeks = currentTime.diff(today, 'weeks');
   const days = currentTime.diff(today, 'days') % 7;
   const result = getCurrentGestationalOld(40, 0, weeks, days);
   return result;
 };
 
+//
+export const getDateFromWeek = (weeks: number, dueDate: string | Date) => {
+  const due =
+    typeof dueDate === 'string'
+      ? moment(dueDate, 'DD-MM-yyyy').toDate()
+      : dueDate;
+  const date = moment(due).subtract((40 - weeks) * 7, 'days');
+  return date.toDate();
+};
+
+export const getMaximumDateWeeks = (date: Date) => {
+  return moment(date).add(7, 'days').toDate();
+};
 export const isEmpty = (value: any) => {
   return value === undefined || value === null || value === '';
 };

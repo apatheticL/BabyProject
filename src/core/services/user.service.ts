@@ -13,6 +13,7 @@ export const updateUserInfo = async (user: UserInfo) => {
         Phone: user.Phone,
         UserId: user.UserId,
         Avatar: user.Avatar,
+        Address: user.Address,
       })
       .then(() => {
         console.log('Data set.');
@@ -44,37 +45,53 @@ export const getUserInfo = async (userId: string) => {
   });
 };
 
-export const updateUserAvatar = async (
-  userId: string,
-  avatar: string,
-  onSuccess: () => void,
-  onFail: () => void,
-) => {
-  database()
-    .ref(`/users/${userId}`)
-    .update({
-      Avatar: avatar,
-    })
-    .then(() => {
-      onSuccess();
-    })
-    .catch(error => {
-      onFail();
-    });
+export const updateUserAvatar = async (userId: string, avatar: string) => {
+  return new Promise<ApiResultModel>((resolve, reject) => {
+    database()
+      .ref(`/users/${userId}`)
+      .update({
+        Avatar: avatar,
+      })
+      .then(() => {
+        resolve({status: true, data: userId, message: ''});
+      })
+      .catch(error => {
+        console.log('Error:', error);
+        reject({status: false, data: null, message: error});
+      });
+  });
 };
-export const logout = async (onSuccess: () => void, onFail: () => void) => {
-  try {
+
+export const updateGestationalAge = async (
+  userId: string,
+  GestationalAge: any,
+) => {
+  return new Promise<ApiResultModel>((resolve, reject) => {
+    database()
+      .ref(`/users/${userId}`)
+      .update({
+        GestationalAge: GestationalAge,
+      })
+      .then(() => {
+        resolve({status: true, data: userId, message: ''});
+      })
+      .catch(error => {
+        console.log('Error:', error);
+        reject({status: false, data: null, message: error});
+      });
+  });
+};
+export const logout = async () => {
+  return new Promise<ApiResultModel>((resolve, reject) => {
     auth()
       .signOut()
       .then(() => {
         console.log('User signed out!');
-        onSuccess();
+        resolve({status: true, data: true, message: 'logout success'});
       })
       .catch(error => {
         console.log('Error:', error);
-        onFail();
+        reject({status: false, data: null, message: error});
       });
-  } catch (error) {
-    onFail();
-  }
+  });
 };

@@ -5,6 +5,7 @@ import {ScheduleRequest} from '../../../core/model/schedule.model';
 import {isEmpty} from '../../../core/utils/utils';
 import {onThunkAddSchedule} from '../store/thunk';
 import {Alert} from 'react-native';
+import {CalendarService} from '../../../core/services/calendar.service';
 export const AddReminderContainer = props => {
   const user = useSelector(state => state?.profileReducer);
   const dispatch = useDispatch();
@@ -13,7 +14,8 @@ export const AddReminderContainer = props => {
       dispatch(
         onThunkAddSchedule(
           schedule,
-          () => {
+          data => {
+            CalendarService.getInstance().saveEvent(data);
             props.navigation.goBack();
           },
           () => {

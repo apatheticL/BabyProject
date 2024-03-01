@@ -9,6 +9,7 @@ interface DateTimeSelectedProps {
   date?: Date;
   onDateChange: (date: Date) => void;
   minimumDate?: Date;
+  maximumDate?: Date;
 }
 
 export const DateTimeSelected = (props: DateTimeSelectedProps) => {
@@ -34,6 +35,7 @@ export const DateTimeSelected = (props: DateTimeSelectedProps) => {
               props.onDateChange(newDate ?? date);
             }}
             minimumDate={props.minimumDate}
+            maximumDate={props.maximumDate}
           />
         )}
       </TouchableOpacity>

@@ -4,6 +4,7 @@ import {ImageSource} from '../../../assets/images';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {isEmpty} from '../../../core/utils/utils';
 import {UserInfo} from '../../../core/model/user-info.model';
+import {AvatarComponent} from '../../../components/avatar.component';
 interface Props {
   currentUser?: UserInfo;
   onPress?: () => void;
@@ -17,11 +18,8 @@ export const UserInfoComponent = (props: Props) => {
   }, [props.currentUser]);
   return (
     <TouchableOpacity style={styles.container} onPress={props.onPress}>
-      <Image
-        source={getAvatar !== '' ? {uri: getAvatar} : ImageSource.avatarDefault}
-        style={styles.avatar}
-      />
-      <View style={{flex: 1}}>
+      <AvatarComponent url={getAvatar} size={{width: 52, height: 52}} />
+      <View style={{flex: 1 , marginLeft: 16}}>
         {/* Name */}
         <Text style={styles.name}>
           {isEmpty(props.currentUser?.Name)

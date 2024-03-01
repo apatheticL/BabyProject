@@ -1,18 +1,35 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {ProfileComponent} from './ProfileComponent';
 
-import React from 'react';
-import {onThunkLogout} from './store/thunk';
+import React, {useEffect} from 'react';
+import {onThunkGetCurrentUser, onThunkLogout} from './store/thunk';
+import {useIsFocused} from '@react-navigation/native';
+import {isEmpty} from '../../core/utils/utils';
 const ProfileScreen = props => {
   const dispatch = useDispatch();
   const user = useSelector(state => state?.profileReducer);
+  const focus = useIsFocused();
+  useEffect(() => {
+    if (focus && !isEmpty(user?.currentUser?.UserId)) {
+      onGetData();
+    }
+  }, [focus, user?.currentUser?.UserId]);
+
+  const onGetData = () => {
+    dispatch(
+      onThunkGetCurrentUser(
+        user.currentUser.UserId,
+        () => {},
+        () => {},
+      ),
+    );
+  };
   const onReminderPress = () => {};
   const onLogoutPress = () => {
     dispatch(
       onThunkLogout(
         () => {
           __DEV__ && console.log('logout success');
-          props.navigation.navigate('login');
         },
         () => {
           __DEV__ && console.log('logout fail');

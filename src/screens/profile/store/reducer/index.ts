@@ -21,6 +21,9 @@ export const profileReducer = (state = initState, action: any) => {
       };
     }
     case CLEAR_USER:
+      console.log('====================================');
+      console.log('rerree');
+      console.log('====================================');
       return {
         ...state,
         user: new User(),

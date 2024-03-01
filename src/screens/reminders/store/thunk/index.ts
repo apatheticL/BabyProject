@@ -2,17 +2,20 @@ import {ExaminationResultRequest} from '../../../../core/model/examination-resul
 import {Schedule, ScheduleRequest} from '../../../../core/model/schedule.model';
 import {ResultScheduleService} from '../../../../core/services/result-schedule.service';
 import {ScheduleService} from '../../../../core/services/schedule.service';
-import {uploadListImage} from '../../../../core/services/upload-image.service';
 import {StatusSchedule} from '../../../../core/utils/contanst';
 import {setCurrentSchedule, setScheduleList} from '../reducer/action';
 
 export const onThunkAddSchedule =
-  (schedule: ScheduleRequest, onSuccess: () => void, onFail: () => void): any =>
+  (
+    schedule: ScheduleRequest,
+    onSuccess: (data: Schedule) => void,
+    onFail: () => void,
+  ): any =>
   async (dispatch: any) => {
     try {
       const result = await ScheduleService.getInstance().addSchedule(schedule);
       if (result.status) {
-        onSuccess();
+        onSuccess(result.data);
       } else {
         onFail();
       }
